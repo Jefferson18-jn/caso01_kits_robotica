@@ -1,0 +1,17 @@
+{
+  "columnas": [
+    "consultas_web",
+    "inversion_publicidad_soles",
+    "campana_escolar"
+  ],
+  "intercepto": 1.5384729585592574,
+  "coeficientes": [
+    0.3463033562740661,
+    0.006699109182241925,
+    5.018213367145449
+  ],
+  "metricas": {
+    "mae": 2.95,
+    "r2": 0.7911
+  }
+}

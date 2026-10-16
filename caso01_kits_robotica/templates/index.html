@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ titulo }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+  <main class="tarjeta">
+    <img class="logo" src="{{ url_for('static', filename='logo_senati.png') }}" alt="Logo SENATI">
+    <h1>{{ titulo }}</h1>
+    <p class="sub">Taller de Machine Learning y Deep Learning · Regresión lineal múltiple</p>
+
+    <form method="post">
+      {% for c in campos %}
+      <label for="{{ c.n }}">{{ c.et }}{% if c.u %} <span class="unidad">({{ c.u }})</span>{% endif %}</label>
+      {% if c.tipo == 'sel' %}
+        <select id="{{ c.n }}" name="{{ c.n }}">
+          {% for texto in c.op %}
+          <option value="{{ loop.index0 }}" {% if valores.get(c.n)|string in [loop.index0|string, loop.index0|string ~ '.0'] %}selected{% endif %}>{{ texto }}</option>
+          {% endfor %}
+        </select>
+      {% else %}
+        <input id="{{ c.n }}" name="{{ c.n }}" type="number" min="{{ c.mn }}" max="{{ c.mx }}" step="{{ c.step }}"
+               value="{{ valores.get(c.n, '') }}" placeholder="{{ c.mn }} a {{ c.mx }}" required>
+      {% endif %}
+      {% endfor %}
+      <button type="submit">Calcular</button>
+    </form>
+
+    {% if error %}<div class="error">⚠ {{ error }}</div>{% endif %}
+    {% if resultado is not none %}
+    <div class="resultado">
+      <span>Resultado estimado</span>
+      <strong>{{ resultado }}</strong>
+      <span>{{ unidad }}</span>
+      <small>Error típico del modelo (MAE): ± {{ metricas.mae }}</small>
+    </div>
+    {% endif %}
+    <p class="aviso">{{ pie }}</p>
+  </main>
+</body>
+</html>
